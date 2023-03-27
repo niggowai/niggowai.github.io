@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<link href="style.css" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Niggowais Github</title>
+</head>
+<body>
+<h1>My Github</h1>
+
+<h2>Repositorys</h2>
+<script type="text/javascript">
+    if (navigator.userAgent.includes("Mac")){
+        document.body.innerHTML = ''
+        document.body.style.backgroundColor = "#fff"
+        document.write('<img src="https://media.tenor.com/SpID00dFZnoAAAAC/android-apple.gif"></img>')
+    }
+    else {
+        fetch("https://api.github.com/users/niggowai/repos").then((response) => response.json()).then((data) => createTable(data))
+    }
+    function createTable(data){
+        let table= "<table class='table table-bordered, table-hover'><tr>"
+        let categorys = ["Repository Name", "license", "forks", "Stars"]
+        for(let cat of categorys){
+            table += createTableHeading(cat)
+        }
+        table += "</tr>"
+        for(let a of data){
+            table += "<tr>"
+            var license =  a.license==null ? "None" : a.license.name
+            var link = "https://github.com/niggowai/";
+            for(let val of [addLink(link + a.name, a.name), license, a.forks_count, a.stargazers_count]){
+                table +=createTableCell(val)
+            }
+            table += "</tr>"
+        }
+        document.write(`<link href="style.css" rel="stylesheet">`)
+        document.write()
+        document.write(`<h1>My Github</h1>`)
+        document.write(`<h2>Repositorys</h2>`)
+        document.write(table)
+        document.title = "Niggowais Github"
+    }
+    function createTableHeading(value){
+        return `<th class="nolink">${value}</th>`;
+    }
+    function createTableCell(value){
+        return  createTableCellRaw("", value);
+    }
+    function createTableCellRaw(attributes, value){
+        return `<td style="text-align: center" ${attributes}>${value}</td>`;
+    }
+    function addLink(link, text){
+        return `<a href="${link}" target="_blank">${text}</a>`
+    }
+</script>
+</body>
+</html>
